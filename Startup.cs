@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http.Connections;
 using Chat;
 
-namespace SignalRApp
+namespace Chat
 {
     public class Startup
     {
