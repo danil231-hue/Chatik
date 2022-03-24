@@ -1,15 +1,12 @@
-﻿<!DOCTYPE html>
+﻿
+@model Chat.ViewModels.LoginModel
+
 <html>
 <head>
     <meta charset="utf-8" />
     <title>SignalR Chat - Metanit.com</title>
 </head>
 <body>
-    <div id="loginBlock">
-        Введите логин:<br />
-        <input id="userName" type="text" />
-        <input id="loginBtn" type="button" value="Войти" />
-    </div><br />
 
     <div id="header"></div><br />
 
@@ -20,11 +17,13 @@
     <div id="chatroom"></div>
     <script src="js/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
-        const hubConnection = new signalR.HubConnectionBuilder()
+        let hubConnection = new signalR.HubConnectionBuilder()
             .withUrl("/chat")
             .build();
+        hubConnection.start();
 
-        let userName = '';
+
+        let userName = 's';
         // получение сообщения от сервера
         hubConnection.on('Send', function (message, userName) {
 
@@ -42,18 +41,13 @@
 
         });
 
-        // установка имени пользователя
-        document.getElementById("loginBtn").addEventListener("click", function (e) {
-            userName = document.getElementById("userName").value;
-            document.getElementById("header").innerHTML = '<h3>Welcome ' + userName + '</h3>';
-        });
         // отправка сообщения на сервер
         document.getElementById("sendBtn").addEventListener("click", function (e) {
             let message = document.getElementById("message").value;
             hubConnection.invoke("Send", message, userName);
         });
 
-        hubConnection.start();
+
     </script>
 </body>
 </html>
