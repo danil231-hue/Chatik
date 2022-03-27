@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Chat.ViewModels; // пространство имен моделей RegisterModel и LoginModel
 using Chat.Models; // пространство имен UserContext и класса User
+using Chat.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
@@ -12,8 +13,8 @@ namespace Chat.Controllers
 {
     public class AccountController : Controller
     {
-        private UserContext db;
-        public AccountController(UserContext context)
+        private ChatDbContext db;
+        public AccountController(ChatDbContext context)
         {
             db = context;
         }
@@ -54,7 +55,7 @@ namespace Chat.Controllers
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    db.Users.Add(new User { Email = model.Email, Password = model.Password });
+                    db.Users.Add(new User { Email = model.Email, Password = model.Password, UserNickname = model.Login,RoleId=1});
                     await db.SaveChangesAsync();
 
                     await Authenticate(model.Email); // аутентификация

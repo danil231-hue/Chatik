@@ -1,4 +1,3 @@
-using Chat.Models; // пространство имен контекста данных UserContext
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Http.Connections;
 using Chat.Hubs;
+using Chat.Data;// пространство имен контекста данных ChatDbContext
 
 
 namespace Chat
@@ -26,9 +26,7 @@ namespace Chat
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSignalR();
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<UserContext>(options => options.UseSqlServer(connection));
-
+            services.AddDbContext<ChatDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("ChatDbConnection")));
             // установка конфигурации подключения
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie(options => //CookieAuthenticationOptions
