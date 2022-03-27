@@ -1,5 +1,5 @@
 ﻿
-@model Chat.ViewModels.LoginModel
+@{ }
 
 <html>
 <head>
@@ -8,13 +8,17 @@
 </head>
 <body>
 
-    <div id="header"></div><br />
+    <a asp-action="Logout" asp-controller="Account">Выход</a>
 
-    <div id="inputForm">
-        <input type="text" id="message" />
-        <input type="button" id="sendBtn" value="Отправить" />
-    </div>
-    <div id="chatroom"></div>
+    <div id="header"></div><br />
+    
+        <div id="inputForm">
+            <input type="text" id="message" />
+            <input type="button" id="sendBtn" value="Отправить" />
+        </div>
+        <div id="chatroom"></div>
+
+
     <script src="js/microsoft/signalr/dist/browser/signalr.min.js"></script>
     <script>
         let hubConnection = new signalR.HubConnectionBuilder()
@@ -22,8 +26,7 @@
             .build();
         hubConnection.start();
 
-
-        let userName = 's';
+        let userName = "@User.Identity.Name";
         // получение сообщения от сервера
         hubConnection.on('Send', function (message, userName) {
 

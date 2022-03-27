@@ -18,6 +18,7 @@ namespace Chat.Controllers
         {
             db = context;
         }
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -45,6 +46,7 @@ namespace Chat.Controllers
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterModel model)
@@ -86,5 +88,7 @@ namespace Chat.Controllers
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
+
     }
+
 }
