@@ -4,7 +4,7 @@
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>SignalR Chat - Metanit.com</title>
+    <title>Чатик</title>
 </head>
 <body>
 
@@ -13,7 +13,7 @@
     <div id="header"></div><br />
     
         <div id="inputForm">
-            <input type="text" id="message" />
+            <input type="text" autocomplete="off" id="message" />
             <input type="button" id="sendBtn" value="Отправить" />
         </div>
         <div id="chatroom"></div>
@@ -47,10 +47,21 @@
         // отправка сообщения на сервер
         document.getElementById("sendBtn").addEventListener("click", function (e) {
             let message = document.getElementById("message").value;
-            hubConnection.invoke("Send", message, userName);
+            if (message != "") {
+                hubConnection.invoke("Send", message, userName);
+                document.getElementById("message").value = "";
+            }
         });
 
-
+        document.getElementById("message").addEventListener('keyup', function (e) {
+            if (event.code === 'Enter') {
+                let message = document.getElementById("message").value;
+                if (message != "") {
+                    hubConnection.invoke("Send", message, userName);
+                    document.getElementById("message").value = "";
+                }
+            }
+        });
     </script>
 </body>
 </html>
